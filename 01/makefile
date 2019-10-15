@@ -20,6 +20,8 @@ test: run.o calculate.o
 	./run 2*3--4
 	./run 5*-4/10+10/2*-5
 	./run 2+3*4--2
+	./run 1---2
+	./run 1/0
 	./run 2+
 	./run 3+=4
 clean:
