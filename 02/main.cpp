@@ -6,32 +6,33 @@ class LinearAllocator
 {
 public:
     LinearAllocator(size_t maxSize): maxSize(maxSize) {
-        head = malloc(maxSize);
-        if(!head) {
+        startHead = reinterpret_cast<char*>(malloc(maxSize));
+        if(!startHead) {
             throw std::bad_alloc();
         }
+        head = startHead;
+
     }
 
     ~LinearAllocator() {
-        if(shift != 0)
-            reset();
-        delete[] reinterpret_cast<char*>(head);
+        if(startHead != nullptr) {
+            delete [] startHead;
+        }
     }
 
     char* allocate(size_t size) {
         if(shift + static_cast<ptrdiff_t>(size) > static_cast<ptrdiff_t>(maxSize)) {
             return nullptr;
         }
-        char* result = reinterpret_cast<char*>(head);
-        head = reinterpret_cast<void*>(reinterpret_cast<char*>(head)+size/sizeof(char));
+        char* result = head;
+        head += size;
         shift += size;
         return result;
-
 
     }
 
     void reset() {
-        head = reinterpret_cast<void*>(reinterpret_cast<char*>(head)-shift/static_cast<ptrdiff_t>(sizeof(char)));
+        head = startHead;
         shift = 0;
     }
 
@@ -44,7 +45,8 @@ public:
     }
 
 private:
-    void* head = nullptr;
+    char* startHead = nullptr;
+    char* head = nullptr;
     ptrdiff_t shift = 0;
     size_t maxSize = 0;
 };
@@ -92,8 +94,6 @@ int main(int argc, char** argv)
     testAlloc();
     testReset();
     testOverflow();
-    LinearAllocator a(10);
-    a.allocate(0);
 
     return 0;
 }
