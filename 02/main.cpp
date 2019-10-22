@@ -5,12 +5,11 @@ using namespace std;
 class LinearAllocator
 {
 public:
-    LinearAllocator(size_t maxSize) {
+    LinearAllocator(size_t maxSize): maxSize(maxSize) {
         head = malloc(maxSize);
         if(!head) {
             throw std::bad_alloc();
         }
-        this->maxSize = maxSize;
     }
 
     ~LinearAllocator() {
@@ -21,9 +20,6 @@ public:
 
     char* allocate(size_t size) {
         if(shift + static_cast<ptrdiff_t>(size) > static_cast<ptrdiff_t>(maxSize)) {
-            return nullptr;
-        }
-        if(size < sizeof (char)) {
             return nullptr;
         }
         char* result = reinterpret_cast<char*>(head);
@@ -96,6 +92,8 @@ int main(int argc, char** argv)
     testAlloc();
     testReset();
     testOverflow();
+    LinearAllocator a(10);
+    a.allocate(0);
 
     return 0;
 }
