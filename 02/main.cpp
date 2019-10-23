@@ -6,9 +6,10 @@ class LinearAllocator
 {
 public:
     LinearAllocator(size_t maxSize): maxSize(maxSize) {
-        startHead = reinterpret_cast<char*>(malloc(maxSize));
+        startHead = (char*)malloc(maxSize);
         if(!startHead) {
-            throw std::bad_alloc();
+            //throw std::bad_alloc();
+            startHead = nullptr;
         }
         head = startHead;
 
@@ -21,7 +22,7 @@ public:
     }
 
     char* allocate(size_t size) {
-        if(shift + static_cast<ptrdiff_t>(size) > static_cast<ptrdiff_t>(maxSize)) {
+        if(shift + size > maxSize) {
             return nullptr;
         }
         char* result = head;
@@ -36,7 +37,7 @@ public:
         shift = 0;
     }
 
-    ptrdiff_t getShift() {
+    size_t getShift() {
         return shift;
     }
 
@@ -47,7 +48,7 @@ public:
 private:
     char* startHead = nullptr;
     char* head = nullptr;
-    ptrdiff_t shift = 0;
+    size_t shift = 0;
     size_t maxSize = 0;
 };
 
@@ -58,9 +59,9 @@ void testAlloc() {
     size_t size2 = 5;
     LinearAllocator allocator(4*1024);
     char* allocatedArray1 = allocator.allocate(size1*sizeof (char));
-    assert(allocator.getShift() == static_cast<ptrdiff_t>(size1));
+    assert(allocator.getShift() == size1);
     char* allocatedArray2 = allocator.allocate(size2*sizeof (char));
-    assert(allocator.getShift() == static_cast<ptrdiff_t>(size1 + size2));
+    assert(allocator.getShift() == size1 + size2);
     std::cout << "Test passed" << std::endl;
 }
 
@@ -94,6 +95,7 @@ int main(int argc, char** argv)
     testAlloc();
     testReset();
     testOverflow();
+
 
     return 0;
 }
