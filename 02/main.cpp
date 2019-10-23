@@ -17,7 +17,7 @@ public:
 
     ~LinearAllocator() {
         if(startHead != nullptr) {
-            delete [] startHead;
+            free(startHead);
         }
     }
 
