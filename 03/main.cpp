@@ -9,8 +9,8 @@ int main()
     p.registerFinishCallback(parsingFinishedCallback);
     p.registerNumberCallback(numberTokenFoundCallback);
     p.registerStringCallback(stringTokenFoundCallback);
-    const char* s = "123 sdfsdf g1g\t1234r\nbg5\n1 23219\t19";
-    p.parse(s, strlen(s));
+    std::string s = "123 sdfsdf g1g\t1234r\nbg5\n1 23219\t19";
+    p.parse(s);
 
     return 0;
 }

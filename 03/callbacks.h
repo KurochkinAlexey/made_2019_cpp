@@ -3,13 +3,15 @@
 
 
 #include <iostream>
+#include <cstring>
 
-typedef void (*CallbackPtr)();
+typedef void (*TimingCallbackPtr)();
+typedef std::string (*TokenFoundCallbackPtr)(const std::string&);
 
 void parsingStartCallback();
 void parsingFinishedCallback();
-void stringTokenFoundCallback();
-void numberTokenFoundCallback();
+std::string stringTokenFoundCallback(const std::string& s);
+std::string numberTokenFoundCallback(const std::string& s);
 
 
 
