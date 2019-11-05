@@ -46,13 +46,13 @@ void Parser::registerFinishCallback(TimingCallbackPtr finishCallback)
 }
 
 
-void Parser::registerStringCallback(TokenFoundCallbackPtr stringCallback)
+void Parser::registerStringCallback(StringTokenFoundCallbackPtr stringCallback)
 {
     this->stringCallback = stringCallback;
 }
 
 
-void Parser::registerNumberCallback(TokenFoundCallbackPtr numberCallback)
+void Parser::registerNumberCallback(NumberTokenFoundCallbackPtr numberCallback)
 {
     this->numberCallback = numberCallback;
 }
@@ -75,8 +75,9 @@ void Parser::defineTokenType(const std::string &s, size_t& head, size_t tail)
     std::string token = s.substr(head, tail-(head));
     head = tail + 1;
     if(isNumber(token)) {
+        long long int numberToken = std::stoll(token);
         if(numberCallback != nullptr)
-            numberCallback(token);
+            numberCallback(numberToken);
     } else {
         if(stringCallback != nullptr)
             stringCallback(token);

@@ -15,8 +15,8 @@ public:
     void parse(const std::string &s);
     void registerStartCallback(TimingCallbackPtr startCallback);
     void registerFinishCallback(TimingCallbackPtr finishCallback);
-    void registerStringCallback(TokenFoundCallbackPtr stringCallback);
-    void registerNumberCallback(TokenFoundCallbackPtr numberCallback);
+    void registerStringCallback(StringTokenFoundCallbackPtr stringCallback);
+    void registerNumberCallback(NumberTokenFoundCallbackPtr numberCallback);
 
 
 private:
@@ -25,8 +25,8 @@ private:
     void defineTokenType(const std::string& s, size_t& head, size_t tail);
     TimingCallbackPtr startCallback;
     TimingCallbackPtr finishCallback;
-    TokenFoundCallbackPtr stringCallback;
-    TokenFoundCallbackPtr numberCallback;
+    StringTokenFoundCallbackPtr stringCallback;
+    NumberTokenFoundCallbackPtr numberCallback;
 };
 
 #endif // PARSER_H

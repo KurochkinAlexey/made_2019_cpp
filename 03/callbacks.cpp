@@ -17,15 +17,15 @@ void parsingFinishedCallback()
 
 std::string stringTokenFoundCallback(const std::string &s)
 {
-    std::cout << "String token found!" << std::endl;
+    std::cout << "String token found! " << s << std::endl;
     return s;
 }
 
 
 
-std::string numberTokenFoundCallback(const std::string &s)
+long long numberTokenFoundCallback(long long s)
 {
-    std::cout << "Number token found!" << std::endl;
+    std::cout << "Number token found! " << s <<  std::endl;
     return s;
 }
 
