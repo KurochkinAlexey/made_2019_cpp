@@ -6,6 +6,8 @@ using namespace std;
 
 int main()
 {
+
+
     const size_t N = 2;
     const size_t M = 2;
     Matrix m1(N, M);
@@ -13,6 +15,7 @@ int main()
     Matrix m3(N, M);
     assert(m1.getRows() == N);
     assert(m1.getColumns() == M);
+
     for(size_t i = 0; i < N; i++) {
         for(size_t j = 0; j < M; j++) {
             m1[i][j] = i + j;
@@ -34,8 +37,8 @@ int main()
         std::cout << "false" << std::endl;
 
 
-    std::cout << "m1 = m3" << std::endl;
-    if(m1 == m3)
+    std::cout << "m1 != m3" << std::endl;
+    if(m1 != m3)
         std::cout << "true" << std::endl;
     else
         std::cout << "false" << std::endl;
@@ -43,5 +46,6 @@ int main()
     m1 *= 3;
     std::cout << "m1 *= 3" << std::endl;
     m1.print();
+
     return 0;
 }

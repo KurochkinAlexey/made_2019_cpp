@@ -1,6 +1,7 @@
 #ifndef ROW_H
 #define ROW_H
 #include <iostream>
+#include <vector>
 
 class Row
 {
@@ -17,9 +18,10 @@ public:
             throw std::out_of_range("");
         return data[i];
     }
-    void operator*=(const int n) {
+    Row& operator*=(const int n) {
         for(size_t i = 0; i < N; i++)
             data[i] *= n;
+        return *this;
     }
     bool operator==(const Row& r) {
         bool result = true;
@@ -30,10 +32,15 @@ public:
             }
         return result;
     }
+    bool operator!=(const Row& r) {
+        bool result = operator==(r);
+        return !result;
+    }
     size_t getColumns() const;
 private:
-    int* data;
     const size_t N;
+public:
+    std::vector<int> data;
 };
 
 #endif // ROW_H

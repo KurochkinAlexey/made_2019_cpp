@@ -12,37 +12,45 @@ public:
     Row& operator[](size_t i) {
         if(i >= nRows)
             throw std::out_of_range("");
-        return *rows[i];
+        return rows[i];
     }
     const Row& operator[](size_t i) const {
         if(i >= nRows)
             throw std::out_of_range("");
-        return *rows[i];
+        return rows[i];
     }
-    void operator*=(const int n) {
+    Matrix& operator*=(const int n) {
         for(size_t i = 0; i < nRows; i++) {
-            *rows[i] *= n;
+            rows[i] *= n;
         }
+        return *this;
     }
     bool operator==(const Matrix& m) {
         bool result = true;
         for(size_t i = 0; i < nRows; i++) {
-            if(!(*rows[i]==m[i])) {
+            if(!(rows[i]==m[i])) {
                 result = false;
                 break;
             }
         }
         return result;
     }
+
+    bool operator!=(const Matrix& m) {
+        bool result = operator==(m);
+        return !result;
+    }
+
     size_t getRows() const;
     size_t getColumns() const;
     void print() const;
 
 
 private:
-    std::vector<Row*> rows;
     const size_t nRows;
     const size_t nColumns;
+public:
+    std::vector<Row> rows;
 };
 
 #endif // MATRIX_H
