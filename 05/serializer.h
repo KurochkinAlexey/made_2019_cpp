@@ -30,6 +30,8 @@ public:
     Error process(First firstValue, Rest... rest)
     {
         Error err1 = process(firstValue);
+        if(err1 != Error::NoError)
+            return err1;
         Error err2 = process(rest...);
         if(err1 != Error::NoError)
             return err1;
@@ -42,13 +44,13 @@ public:
     Error process(T value)
     {
 
-        if(sizeof (value) == 1) {
+        if(is_bool<T>::value) {
             if(value)
                 out_ << "true" << Separator;
             else
                 out_ << "false" << Separator;
             return Error::NoError;
-        } else if(sizeof(value) == sizeof (u_int64_t)) {
+        } else if(is_uint64_t<T>::value) {
             out_ << value << Separator;
             return Error::NoError;
         } else

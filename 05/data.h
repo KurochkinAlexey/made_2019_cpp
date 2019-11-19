@@ -62,4 +62,30 @@ struct Data3
 };
 
 
+template <typename T>
+struct is_bool
+{
+    static constexpr bool value = false;
+};
+
+template <>
+struct is_bool<bool>
+{
+    static constexpr bool value = true;
+};
+
+template <typename T>
+struct is_uint64_t
+{
+    static constexpr bool value = false;
+};
+
+template <>
+struct is_uint64_t<uint64_t>
+{
+    static constexpr bool value = true;
+};
+
+
+
 #endif // DATA_H

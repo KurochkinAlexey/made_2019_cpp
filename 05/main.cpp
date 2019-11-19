@@ -2,6 +2,7 @@
 #include "serializer.h"
 #include "deserializer.h"
 #include <cassert>
+#include <type_traits>
 using namespace std;
 
 
@@ -23,6 +24,7 @@ int main()
     Error saveRes2 = ss2.save(d2);
     assert(saveRes1 == Error::NoError);
     assert(saveRes2 == Error::NoError);
+
 
     Deserializer ds1(s1);
     Deserializer ds2(s2);

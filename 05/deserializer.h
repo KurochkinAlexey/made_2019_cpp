@@ -24,9 +24,9 @@ public:
     Error process(First& firstValue, Rest&... rest)
     {
         Error err1 = process(firstValue);
-        Error err2 = process(rest...);
         if(err1 != Error::NoError)
             return err1;
+        Error err2 = process(rest...);
         if(err2 != Error::NoError)
             return err2;
         return err1;
@@ -35,7 +35,7 @@ public:
     template<typename T>
     Error process(T& value)
     {
-        if(sizeof (value) == 1) {
+        if(is_bool<T>::value) {
             std::string text;
             in_ >> text;
             if(text == "true")
@@ -47,7 +47,7 @@ public:
             return Error::NoError;
 
 
-        } else if(sizeof(value) == sizeof (u_int64_t)) {
+        } else if(is_uint64_t<T>::value) {
             uint64_t val;
             in_ >> val;
             value = val;
