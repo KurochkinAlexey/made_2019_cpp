@@ -10,13 +10,9 @@ public:
     BigInt();
     BigInt(const int& x);
     BigInt(const BigInt& x);
-    BigInt(const int* data_, const size_t size_, bool isNegative);
     BigInt(BigInt&& x);
     ~BigInt();
-    size_t getSize() const;
-    int* getData() const;
-    bool getIsNegative() const;
-    void setIsNegative(bool isNegative_);
+
     BigInt operator+(const int& x);
     BigInt operator+(const BigInt& x);
     BigInt operator-(const int& x);
@@ -37,9 +33,13 @@ public:
     void operator=(const int& x);
     void operator=(const BigInt& x);
     void operator=(BigInt&& x);
-private:
-    int* data = nullptr;
+
     size_t size = 0;
+    int* data = nullptr;
+private:
+    BigInt(const int* data_, const size_t size_, bool isNegative);
+//    size_t size = 0;
+//    int* data = nullptr;
     bool isNegative = false;
     size_t getNumberOfDigits(int x);
     void splitIntoDigits(int x, size_t i, int* data);

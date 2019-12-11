@@ -24,11 +24,11 @@ BigInt::BigInt(const int& x)
 
 BigInt::BigInt(const BigInt &x)
 {
-    size = x.getSize();
+    size = x.size;
     data = new int[size];
     for(size_t i = 0; i < size; i++)
-        data[i] = x.getData()[i];
-    isNegative = x.getIsNegative();
+        data[i] = x.data[i];
+    isNegative = x.isNegative;
 }
 
 
@@ -41,7 +41,7 @@ BigInt::BigInt(const int* data_, const size_t size_, bool isNegative_)
     isNegative = isNegative_;
 }
 
-BigInt::BigInt(BigInt &&x):size(x.getSize()), data(x.getData()), isNegative(x.getIsNegative())
+BigInt::BigInt(BigInt &&x):size(x.size), data(x.data), isNegative(x.isNegative)
 {
     x.data = nullptr;
     x.size = 0;
@@ -50,28 +50,6 @@ BigInt::BigInt(BigInt &&x):size(x.getSize()), data(x.getData()), isNegative(x.ge
 BigInt::~BigInt()
 {
     delete[] data;
-}
-
-
-size_t BigInt::getSize() const
-{
-    return size;
-}
-
-
-int *BigInt::getData() const
-{
-    return data;
-}
-
-bool BigInt::getIsNegative() const
-{
-    return isNegative;
-}
-
-void BigInt::setIsNegative(bool isNegative_)
-{
-    isNegative = isNegative_;
 }
 
 
@@ -125,15 +103,16 @@ BigInt BigInt::operator+(const int &x)
 //      std::cout << std::endl;
     delete [] xData;
     delete [] yData;
+    delete [] resultData;
     return result;
 }
 
 BigInt BigInt::operator+(const BigInt &x)
 {
-    size_t xSize = x.getSize();
+    size_t xSize = x.size;
     int* xData = new int[xSize];
     for(size_t i = 0; i < xSize; i++)
-        xData[i] = x.getData()[i];
+        xData[i] = x.data[i];
 
     size_t ySize = size;
     int* yData = new int[ySize];
@@ -143,15 +122,15 @@ BigInt BigInt::operator+(const BigInt &x)
     size_t resultSize = size;
     int* resultData = nullptr;
     bool isResultNegative = false;
-    if((!isNegative)&&(!x.getIsNegative())) {
+    if((!isNegative)&&(!x.isNegative)) {
         isResultNegative = false;
         resultData = addTwoNumbers(yData, ySize, xData, xSize, resultSize);
     }
-    if((isNegative)&&(x.getIsNegative())) {
+    if((isNegative)&&(x.isNegative)) {
         isResultNegative = true;
         resultData = addTwoNumbers(yData, ySize, xData, xSize, resultSize);
     }
-    if((!isNegative)&&(x.getIsNegative())) {
+    if((!isNegative)&&(x.isNegative)) {
         if(isGreaterEqual(yData, ySize, xData, xSize)) {
             isResultNegative = false;
             resultData = subtractNumberFromAnother(yData, ySize, xData, xSize, resultSize);
@@ -161,7 +140,7 @@ BigInt BigInt::operator+(const BigInt &x)
             resultData = subtractNumberFromAnother(xData, xSize, yData, ySize, resultSize);
         }
     }
-    if((isNegative)&&(!x.getIsNegative())) {
+    if((isNegative)&&(!x.isNegative)) {
         if(isGreaterEqual(yData, ySize, xData, xSize)) {
             isResultNegative = true;
             resultData = subtractNumberFromAnother(yData, ySize, xData, xSize, resultSize);
@@ -178,6 +157,7 @@ BigInt BigInt::operator+(const BigInt &x)
 //    std::cout << std::endl;
     delete [] xData;
     delete [] yData;
+    delete [] resultData;
     return result;
 }
 
@@ -233,16 +213,17 @@ BigInt BigInt::operator-(const int &x)
 //    std::cout << std::endl;
     delete [] xData;
     delete [] yData;
+    delete [] resultData;
     return result;
 
 }
 
 BigInt BigInt::operator-(const BigInt &x)
 {
-    size_t xSize = x.getSize();
+    size_t xSize = x.size;
     int* xData = new int[xSize];
     for(size_t i = 0; i < xSize; i++)
-        xData[i] = x.getData()[i];
+        xData[i] = x.data[i];
 
     size_t ySize = size;
     int* yData = new int[ySize];
@@ -252,7 +233,7 @@ BigInt BigInt::operator-(const BigInt &x)
     size_t resultSize = size;
     int* resultData = nullptr;
     bool isResultNegative = false;
-    if((!isNegative)&&(!x.getIsNegative())) {
+    if((!isNegative)&&(!x.isNegative)) {
         if(isGreaterEqual(yData, ySize, xData, xSize)) {
             isResultNegative = false;
             resultData = subtractNumberFromAnother(yData, ySize, xData, xSize, resultSize);
@@ -263,7 +244,7 @@ BigInt BigInt::operator-(const BigInt &x)
         }
     }
 
-    if((isNegative)&&(x.getIsNegative())) {
+    if((isNegative)&&(x.isNegative)) {
         if(isGreaterEqual(yData, ySize, xData, xSize)) {
             isResultNegative = true;
             resultData = subtractNumberFromAnother(yData, ySize, xData, xSize, resultSize);
@@ -273,12 +254,12 @@ BigInt BigInt::operator-(const BigInt &x)
             resultData = subtractNumberFromAnother(xData, xSize, yData, ySize, resultSize);
         }
     }
-    if(!(isNegative)&&(x.getIsNegative())) {
+    if(!(isNegative)&&(x.isNegative)) {
         isResultNegative = false;
         resultData = addTwoNumbers(yData, ySize, xData, xSize, resultSize);
     }
 
-    if((isNegative)&&(!x.getIsNegative())) {
+    if((isNegative)&&(!x.isNegative)) {
         isResultNegative = true;
         resultData = addTwoNumbers(yData, ySize, xData, xSize, resultSize);
     }
@@ -290,6 +271,7 @@ BigInt BigInt::operator-(const BigInt &x)
 //    std::cout << std::endl;
     delete [] xData;
     delete [] yData;
+    delete [] resultData;
     return result;
 }
 
@@ -335,6 +317,7 @@ bool BigInt::operator==(const int &x)
 
     bool result;
     result = isEqual(data, size, xData, xSize);
+    delete [] xData;
     return result;
 }
 
@@ -381,20 +364,20 @@ bool BigInt::operator<=(const int &x)
 
 bool BigInt::operator>(const BigInt &x)
 {
-    if((!isNegative)&&(x.getIsNegative()))
+    if((!isNegative)&&(x.isNegative))
         return true;
-    if((isNegative)&&(!x.getIsNegative()))
+    if((isNegative)&&(!x.isNegative))
         return false;
 
-    size_t xSize = x.getSize();
+    size_t xSize = x.size;
     int* xData = new int[xSize];
     for(size_t i = 0; i < xSize; i++)
-        xData[i] = x.getData()[i];
+        xData[i] = x.data[i];
 
     bool result = false;
-    if((!isNegative)&&(!x.getIsNegative()))
+    if((!isNegative)&&(!x.isNegative))
         result = isGreater(data, size, xData, xSize);
-    if((isNegative)&&(x.getIsNegative()))
+    if((isNegative)&&(x.isNegative))
         result = isLess(data, size, xData, xSize);
 
     delete [] xData;
@@ -403,16 +386,18 @@ bool BigInt::operator>(const BigInt &x)
 
 bool BigInt::operator==(const BigInt &x)
 {
-    if(((isNegative)&&(!x.getIsNegative()))||((!isNegative)&&(x.getIsNegative())))
+    if(((isNegative)&&(!x.isNegative))||((!isNegative)&&(x.isNegative)))
         return false;
 
-    size_t xSize = x.getSize();
+    size_t xSize = x.size;
     int* xData = new int[xSize];
     for(size_t i = 0; i < xSize; i++)
-        xData[i] = x.getData()[i];
+        xData[i] = x.data[i];
 
     bool result;
     result = isEqual(data, size, xData, xSize);
+
+    delete [] xData;
     return result;
 }
 
@@ -424,21 +409,21 @@ bool BigInt::operator!=(const BigInt &x)
 
 bool BigInt::operator<(const BigInt &x)
 {
-    if((!isNegative)&&(x.getIsNegative()))
+    if((!isNegative)&&(x.isNegative))
         return false;
-    if((isNegative)&&(!x.getIsNegative()))
+    if((isNegative)&&(!x.isNegative))
         return true;
 
-    size_t xSize = x.getSize();
+    size_t xSize = x.size;
     int* xData = new int[xSize];
     for(size_t i = 0; i < xSize; i++)
-        xData[i] = x.getData()[i];
+        xData[i] = x.data[i];
 
     bool result = false;
-    if((!isNegative)&&(!x.getIsNegative()))
+    if((!isNegative)&&(!x.isNegative))
         result = isLess(data, size, xData, xSize);
 
-    if((isNegative)&&(x.getIsNegative()))
+    if((isNegative)&&(x.isNegative))
         result = isGreater(data, size, xData, xSize);
 
     delete [] xData;
@@ -460,7 +445,8 @@ bool BigInt::operator<=(const BigInt &x)
 BigInt BigInt::operator-() const
 {
     BigInt tmp(*this);
-    tmp.setIsNegative(!isNegative);
+    //tmp.setIsNegative(!isNegative);
+    tmp.isNegative = !isNegative;
     return tmp;
 }
 
@@ -482,11 +468,11 @@ void BigInt::operator=(const BigInt &x)
         return;
     if(data != nullptr)
         delete [] data;
-    size = x.getSize();
+    size = x.size;
     data = new int[size];
     for(size_t i = 0; i < size; i++)
-        data[i] = x.getData()[i];
-    isNegative = x.getIsNegative();
+        data[i] = x.data[i];
+    isNegative = x.isNegative;
 }
 
 void BigInt::operator=(BigInt &&x)
@@ -495,7 +481,7 @@ void BigInt::operator=(BigInt &&x)
         return;
     if(data != nullptr)
         delete [] data;
-    size = x.getSize();
+    size = x.size;
     data = x.data;
     isNegative = x.isNegative;
     x.data = nullptr;
@@ -727,7 +713,7 @@ bool BigInt::isLessEqual(int *data, size_t size, int *xData, size_t xSize)
 
 std::ostream &operator<<(std::ostream &os, const BigInt &x)
 {
-    for(size_t i = 0; i < x.getSize(); i++)
-        os << x.getData()[i];
+    for(size_t i = 0; i < x.size; i++)
+        os << x.data[i];
     return os;
 }
