@@ -143,15 +143,18 @@ int main()
     BigInt bi41 = 2147483647;
     bi41 = bi41 + 2147483647;
 
-    std::ostringstream res("");
-    for(size_t i = 0; i < bi41.getSize(); i++) {
-        res << bi41.getData()[i];
-    }
+    std::cout << 2147483647 << "+" << 2147483647 << "=";
+    std::cout << bi41;
 
-    std::string result = res.str();
+//    std::ostringstream res("");
+//    for(size_t i = 0; i < bi41.getSize(); i++) {
+//        res << bi41.getData*///()[i];
+//    }
+
+//    std::string result = res.str();
 
 
-    assert(result == "4294967294");
+    //assert(result == "4294967294");
 
 
     return 0;
