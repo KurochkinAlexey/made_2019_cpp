@@ -101,7 +101,7 @@ vector<T, Alloc>::vector(vector::size_type count, vector::allocator_type alloc):
         allocated = defaultBufferSize_;
     }
     for(size_t i = 0; i < size_; i++) {
-        data_[i] = 0;
+        data_[i] = T();
     }
 }
 
@@ -318,7 +318,7 @@ void vector<T, Alloc>::resize(vector::size_type newSize)
 
     }
     for(size_t i = size_; i < newSize; i++) {
-        data_[i] = 0;
+        data_[i] = T();
     }
     size_ = newSize;
 }

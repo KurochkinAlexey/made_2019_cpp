@@ -1,6 +1,12 @@
 #include "vector.h"
 #include <iostream>
 
+struct Point {
+    Point(): x(1), y(-1) {}
+    Point(double x_, double y_) : x(x_), y(y_) {}
+    double x;
+    double y;
+};
 
 int main()
 {
@@ -96,6 +102,16 @@ int main()
         std::cout << *i << " ";
     }
     std::cout << std::endl;
+
+    std::cout << "Complex objects" << std::endl;
+    vector<Point> vecOfPoints;
+    vecOfPoints.push_back(Point(4, 5));
+    vecOfPoints.resize(3);
+
+    for(vector<Point>::iterator i = vecOfPoints.begin(); i != vecOfPoints.end(); ++i) {
+        std::cout << (*i).x << " " << (*i).y << std::endl;
+    }
+
 
     return 0;
 }
