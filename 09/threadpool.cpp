@@ -17,7 +17,6 @@ void ThreadPool::workOrder()
             lock.unlock();
             task();
         } else {
-            std::cout << "Sleeping..." << std::endl;
             scheduler.wait(lock);
         }
     }
