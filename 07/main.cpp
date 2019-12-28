@@ -1,6 +1,8 @@
 #include <iostream>
 #include "format.h"
 #include <cassert>
+#include <vector>
+
 
 struct testStruct
 {
@@ -10,9 +12,8 @@ struct testStruct
 int main()
 {
     std::cout << "Running tests..." << std::endl;
-    std::string str1 = format("{1}+{1} != {0}", 2, 3.14);
-    //std::cout << str1 << std::endl;
-    assert(str1 == "3.140000+3.140000 != 2");
+    std::string str1 = format("{1}+{1} != {0}", 2, 3.141590);
+    assert(str1 == "3.141590+3.141590 != 2");
 
     std::string str2 = format("{1}+{1} = {0}", 2, "one");
     assert(str2 == "one+one = 2");
@@ -30,35 +31,35 @@ int main()
         format("{1}+{1} = {2}", 2, "one");
     } catch(std::runtime_error re) {
         std::string w = re.what();
-        assert(w == "Argument numbers do not match position in function");
+        assert(w == "Arguments do not match");
     }
 
     try {
         format("{1}+{1 = {0}", 2, "one");
     } catch(std::runtime_error re) {
         std::string w = re.what();
-        assert(w == "Number of parentheses do not match");
+        assert(w == "Arguments do not match");
     }
 
     try {
         format("{1}+{1}={2}", 2);
     } catch(std::runtime_error re) {
         std::string w = re.what();
-        assert(w == "Number of arguments do not match");
+        assert(w == "Arguments do not match");
     }
 
     try {
         format("{}+{1}={0}", 2, 1);
     } catch(std::runtime_error re) {
         std::string w = re.what();
-        assert(w == "Invalid argument number given");
+        assert(w == "Arguments do not match");
     }
 
     try {
         format("{1}+{-1}={0}", 2, 1);
     } catch(std::runtime_error re) {
         std::string w = re.what();
-        assert(w == "Invalid argument number given");
+        assert(w == "Arguments do not match");
     }
 
 
@@ -66,7 +67,7 @@ int main()
         format("{123456789987654321}+{1}={0}", 2, 1);
     } catch(std::runtime_error re) {
         std::string w = re.what();
-        assert(w == "Argument number is too big");
+        assert(w == "Arguments do not match");
     }
 
     try {
@@ -84,5 +85,7 @@ int main()
     }
 
     std::cout << "All tests are passed" << std::endl;
+
+
     return 0;
 }
