@@ -100,9 +100,7 @@ vector<T, Alloc>::vector(vector::size_type count, vector::allocator_type alloc):
         reserve(defaultBufferSize_);
         allocated = defaultBufferSize_;
     }
-    for(size_t i = 0; i < size_; i++) {
-        data_[i] = T();
-    }
+    alloc_.constructObjects(data_, 0, size_);
 }
 
 
@@ -121,9 +119,7 @@ vector<T, Alloc>::vector(vector::size_type count, const_reference defaultValue, 
         reserve(defaultBufferSize_);
         allocated = defaultBufferSize_;
     }
-    for(size_t i = 0; i < size_; i++) {
-        data_[i] = defaultValue;
-    }
+    alloc_.constructObjects(data_, 0, size_, defaultValue);
 }
 
 
@@ -317,9 +313,7 @@ void vector<T, Alloc>::resize(vector::size_type newSize)
        allocated = 2*newSize;
 
     }
-    for(size_t i = size_; i < newSize; i++) {
-        data_[i] = T();
-    }
+    alloc_.constructObjects(data_, size_, newSize);
     size_ = newSize;
 }
 
@@ -337,9 +331,7 @@ void vector<T, Alloc>::resize(vector::size_type newSize, vector::const_reference
        allocated = 2*newSize;
 
     }
-    for(size_t i = size_; i < newSize; i++) {
-        data_[i] = defaultValue;
-    }
+    alloc_.constructObjects(data_, size_, newSize, defaultValue);
     size_ = newSize;
 }
 
